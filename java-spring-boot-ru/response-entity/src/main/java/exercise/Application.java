@@ -46,7 +46,7 @@ public class Application {
     @PostMapping("/posts")
     public ResponseEntity<Post> createPost(@RequestBody Post data){
         posts.add(data);
-        return ResponseEntity.ok(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 
     @PutMapping("/posts/{id}")
