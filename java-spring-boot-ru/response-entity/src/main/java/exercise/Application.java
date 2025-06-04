@@ -22,7 +22,7 @@ import lombok.Setter;
 public class Application {
     // Хранилище добавленных постов
     @Setter
-    private static  List<Post> posts = Data.getPosts();
+    private static List<Post> posts = Data.getPosts();
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -30,7 +30,7 @@ public class Application {
 
     // BEGIN
     @GetMapping("/posts")
-    public ResponseEntity<List<Post>> getPosts(){
+    public ResponseEntity<List<Post>> getPosts() {
         var data = posts.stream().toList();
         return ResponseEntity.status(HttpStatus.OK)
                 .header("X-Total-Count", String.format("%d", data.size()))
@@ -38,21 +38,21 @@ public class Application {
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable String id){
+    public ResponseEntity<Post> getPost(@PathVariable String id) {
         var data = posts.stream().filter(x -> x.getId().equals(id)).findFirst();
         return ResponseEntity.of(data);
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<Post> createPost(@RequestBody Post data){
+    public ResponseEntity<Post> createPost(@RequestBody Post data) {
         posts.add(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 
     @PutMapping("/posts/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody Post data){
+    public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody Post data) {
         var mayBePost = posts.stream().filter(x -> x.getId().equals(id)).findFirst();
-        if(mayBePost.isPresent()){
+        if (mayBePost.isPresent()) {
             var post = mayBePost.get();
             post.setId(data.getId());
             post.setTitle(data.getTitle());
